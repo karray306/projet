@@ -1,102 +1,87 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <SDL/SDL.h>
-
-#include "time.h"   /*a verifier*/
 #include <SDL/SDL_image.h>
-#include <SDL/SDL_mixer.h>
 #include <SDL/SDL_ttf.h>
-#include <string.h>
+#include "time.h"
 
-
-SDL_Surface * afficher_chrono(SDL_Surface *ecran , SDL_Surface *Background , SDL_Rect p , int running  )
+void Timer(int *tempsdebut)
 {
-
- SDL_Surface  *texte = NULL ; 
-    SDL_Rect position,positionecran;
-    SDL_Event event;
-int n ; 
-    TTF_Font *police = NULL;
-    SDL_Color couleurNoire = {0, 0, 0}, couleurBlanche = {255, 255, 255};
-    int continuer = 1;
-    int tempsActuel = 0, tempsPrecedent = 0, compteur = 0,fps=0,fpm=0,fph=0;
-    char temps[30] = ""; /* Tableau de char suffisamment grand */
-   // float delta;
-    float dt;
-
-
-
-
-    /* Chargement de la police */
-    police = TTF_OpenFont("arial.ttf", 25);
-
-    /* Initialisation du temps et du texte */
-    tempsActuel = SDL_GetTicks();
-    sprintf(temps, "Temps : %d", compteur);
-    //texte = TTF_RenderText_Shaded(police, temps, couleurNoire, couleurBlanche);
-    //texte = TTF_RenderText_Solid(police, temps, couleurNoire);
-    texte = TTF_RenderText_Blended(police, temps, couleurNoire);
-
-    while (n )
+    
+   if( SDL_GetTicks() - *tempsdebut >= 1000 )
     {
-        SDL_PollEvent(&event);
-        switch(event.type)
-        {
-            case SDL_QUIT:
-                n = 0;
-                break;
-        }
-
-
-
-        tempsActuel = SDL_GetTicks();
-          dt=tempsActuel - tempsPrecedent;
-         
-      if ( dt >= 1000) /* Si 1000 ms au moins se sont écoulées */
-        {
-          compteur += 1000; /* On rajoute 1000 ms au compteur */
-
-          fps=compteur/1000;
-           
-               
-             if (fps>59)
-                 { fpm=(fps/60);
-                  // fps=fps-(60*fpm);
-                   
-                   if(fpm>59)
-                      fph=(fpm/60);
-                  
-                  
-                 }
-             
-           
-           
-
-              
-            sprintf(temps,"Temps: %d :%d :%d",fph,fpm,fps-(60*fpm)/*compteur*/); /* On écrit dans la chaîne "temps" le nouveau temps */
-          // SDL_FreeSurface(texte); /* On supprime la surface précédente */
-
-
-           //texte = TTF_RenderText_Shaded(police, temps, couleurNoire, couleurBlanche); /* On écrit la chaîne temps dans la SDL_Surface */
-              // texte = TTF_RenderText_Solid(police, temps, couleurNoire);
-             texte = TTF_RenderText_Blended(police, temps, couleurNoire);
-
-
-            tempsPrecedent = tempsActuel; /* On met à jour le tempsPrecedent */
-        }
-
-
-
+        *tempsdebut = SDL_GetTicks() ;
+      
+      
     }
-
-    TTF_CloseFont(police);
-    TTF_Quit();
-
-    SDL_FreeSurface(texte);
-    //SDL_Quit();
-
-return texte ; 
+  
 }
 
+void inittemps(Time *t)
+{   int test; 
+	t->tempsdebut=SDL_GetTicks();
+	t->mm=0;
+	t->ss=0;
+	test=initTexttime(&t->temps);
+}
 
-/*
+int initTexttime(Text* T)
+{ int testload;
+    T->couleurTxt.r = 100; 
+    T->couleurTxt.g = 10; 
+    T->couleurTxt.b = 100;
+
+    strcpy(T->txt, "");
+    T->positionText.x = 750;
+    T->positionText.y = 20; 
+    testload=loadFonttime(T,"Semibold.ttf");
+    T->textSurface=NULL;
+    return testload;   
+}
+
+int loadFonttime(Text* T, char* path)
+{
+    TTF_Font* police = NULL;
+
+    if(TTF_Init() == -1) {
+        printf("Erreur d'initialisation de TTF_Init : %s\n", TTF_GetError());
+        return -1;
+    }
+    T->police= TTF_OpenFont(path,60);
+    if (police == NULL) {
+        printf("Unable to load Font: %s\n", SDL_GetError());
+        return (-1);
+    }
+    return (0);
+}
+
+void update_time(Time* T)
+{   int ts;
+    Timer(&T->tempsdebut);
+    ts=T->tempsdebut/1000;
+
+    T->mm=ts/ 60;
+    T->ss=ts % 60;
+    
+    if(T->mm<10&&T->ss<10)
+       sprintf(T->temps.txt,"*** time :0%d:0%d  ***",T->mm,T->ss);
+    else if(T->mm<10&&T->ss>10)
+        sprintf(T->temps.txt,"*** time :0%d:%d  ***",T->mm,T->ss);
+    else if(T->mm>10&&T->ss<10)
+          sprintf(T->temps.txt,"*** time :%d:0%d  ***",T->mm,T->ss);
+
+
+    T->temps.textSurface=TTF_RenderText_Solid(T->temps.police,T->temps.txt,T->temps.couleurTxt);
+}
+void displaytime(Time T,SDL_Surface *screen)
+{
+    
+     
+     SDL_BlitSurface(T.temps.textSurface,NULL,screen,&(T.temps.positionText));
+
+}
+
+void freeTexttime(Text T)
+{
+    TTF_CloseFont(T.police); 
+    TTF_Quit();    
+}
