@@ -1,39 +1,39 @@
 
-#ifndef FONCTIONS_H_
-#define FONCTIONS_H_
-
-#include <stdio.h>
-#include <stdlib.h>
+#ifndef TIME_H_INCLUDED
+#define TIME_H_INCLUDED
 #include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_mixer.h>
 #include <SDL/SDL_ttf.h>
-#include <time.h>
+#include <string.h>
 
 
 
+struct text {
+    SDL_Surface* textSurface;
+    SDL_Rect positionText;
+    char txt[20];
+    SDL_Color couleurTxt;
+    TTF_Font* police;
+};
+typedef struct text Text;
 
-
-typedef struct 
+typedef struct time
 {
-        SDL_Surface * temps;
-	SDL_Rect position_temps;
-
-	int heure;
-	
-	int minute;
-	
-	int seconde;
-	
-	 
-	TTF_Font *police;
-
-	int tempsactuel;
-	int tempsprecedent;
-	
-
-	
-}temps;
+    int tempsdebut;
+    int mm; 
+    int ss;
+    Text temps;
+    
+} Time;
 
 
-SDL_Surface * afficher_chrono(SDL_Surface *ecran , SDL_Surface *Background , SDL_Rect p , int running );
+
+void inittemps(Time *t);
+void Timer(int *tempsdebut);
+int initTexttime(Text* T);
+int loadFonttime(Text* T, char* angelina);
+void update_time(Time* T);
+void displaytime(Time T,SDL_Surface *screen);
+void freeTexttime(Text T);
+
+
+#endif
