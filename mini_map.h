@@ -1,31 +1,26 @@
-#ifndef _FONCTIONS_H_
-#define _FONCTIONS_H_
+#ifndef map_H_INCLUDED
+#define map_H_INCLUDED
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <SDL/SDL.h>
+#include <stdbool.h>
+#include <math.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
+#include <SDL/SDL_mixer.h>
+#include "deplacement.h"
 
+typedef struct 
+{
+	SDL_Surface *map ;
+	SDL_Rect pos_map;
+	SDL_Surface *mini_perso;
+	SDL_Rect perso_pos_map;
+}map ;
 
-
-
-typedef struct minimap
-{ 
-  SDL_Surface* s ;
-  SDL_Rect position ;
-}minimap ; 
-
-typedef struct curseur
-{ 
-  SDL_Surface* cu ;
-  SDL_Rect position ;
-}curseur ; 
-
-               
-minimap initialisation_minimap (minimap m) ;
-
-curseur initialisation_curseur (curseur c) ; 
-
-void afficher_minimap(minimap m,curseur c,SDL_Surface *ecran);
-
-void mini_map(curseur * c ,SDL_Rect positionennemi);
-
-
+	void initialiser_map (map *m,SDL_Surface *screen,pers *p) ;
+	void perso_map(map *m,pers *p);
+	void affiche_map(map *m, SDL_Surface *screen,pers *p);
 
 #endif
