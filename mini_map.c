@@ -1,41 +1,28 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
-#include "fonction.h"
-#include <SDL/SDL_mixer.h>
+#include "map.h"
 
+void initialiser_map (map *m,SDL_Surface *screen,pers *p)
+{
+	m->map=IMG_Load("miniback.jpeg");
+	m->pos_map.x = 1000;
+	m->pos_map.y = 500;
 
+	m->mini_perso=SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_DOUBLEBUF,10,10,32,0,0,0,0);
+	SDL_FillRect(m->mini_perso,NULL,SDL_MapRGB(screen->format,0,0,255));
+	m->perso_pos_map.x=0;
+	m->perso_pos_map.y=0;
 
-minimap initialisation_minimap (minimap m) 
-{
-	
-m.s=IMG_Load("mini_map.png");	
-	m.position.x=0 ;
-	m.position.y=0 ;
-return m ;
-}
-curseur initialisation_curseur(curseur c)
-{
-c.cu=IMG_Load("curseur.png");
-	c.position.x=0;
-	c.position.y=5;
-return c ;
-}
- 
-void afficher_minimap(minimap m,curseur c,SDL_Surface *ecran)
-{
-SDL_BlitSurface(m.s,NULL,ecran,&m.position);
- 
-SDL_BlitSurface(c.cu,NULL,ecran,&c.position);
-SDL_FreeSurface(&m.position);
-SDL_FreeSurface(&c.position);
 }
 
-void mini_map(curseur * c ,SDL_Rect positionennemi)
-{
-	c->position.x=(float)0.32*(positionennemi.x);
-	c->position.y=(float)0.32*(positionennemi.y);
 
+void perso_map(map *m,pers *p)
+{
+	m->perso_pos_map.x=p->pos_perso.x/10+m->pos_map.x;
+	m->perso_pos_map.y=p->pos_perso.y/10+10+m->pos_map.y;
+}
+
+
+void affiche_map(map *m , SDL_Surface *screen,pers *p)
+{
+	SDL_BlitSurface(m->map, NULL, screen,&m->pos_map);
+	SDL_BlitSurface(m->mini_perso, NULL, screen,&m->perso_pos_map);
 }
