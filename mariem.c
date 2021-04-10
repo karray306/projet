@@ -78,6 +78,7 @@ switch(event.type)
 
 	freeTexttime(temps.temps);
 	free_perso(p);
+	/*free_map(m);*/
 	SDL_Quit();
 
 	return 1;
