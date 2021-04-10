@@ -21,7 +21,7 @@ void perso_map(map *m,pers *p)
 }
 
 
-void affiche_map(map *m , SDL_Surface *screen,pers *p)
+void affiche_map(map *m , SDL_Surface *screen,/*pers *p*/)
 {
 	SDL_BlitSurface(m->map, NULL, screen,&m->pos_map);
 	SDL_BlitSurface(m->mini_perso, NULL, screen,&m->perso_pos_map);
