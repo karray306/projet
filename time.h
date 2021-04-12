@@ -13,7 +13,7 @@ struct text {
     char txt[20];
     SDL_Color couleurTxt;
     TTF_Font* police;
-};
+}Text;
 typedef struct text Text;
 
 typedef struct time
