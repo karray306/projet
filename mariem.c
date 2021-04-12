@@ -5,7 +5,7 @@
 #include <SDL/SDL_ttf.h>
 #include "time.h"
 #include "map.h"
-
+#include"deplacement.h"
 int main(void)
 {	
 		int continuer=1;
