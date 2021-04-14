@@ -48,15 +48,15 @@ SDL_Surface *ecran = NULL/*, *pers = NULL*//*,*map=NULL*/,*bgc=NULL;
         positionpers.x=500;
         positionpers.y=500;*/
 		map *m ;
-	m->map=NULL
+	m->map=NULL;
 	masque=NULL;
-	p->image_p=NULL;
+	p.image_p=NULL;
 	
 	
 	
 	
 
-	m->.pos_map.x =0;
+	m->pos_map.x =0;
 	m->pos_map.y=0;
 	p.pos_perso.x=500;
 	p.pos_perso.y=500;
@@ -74,14 +74,14 @@ SDL_Surface *ecran = NULL/*, *pers = NULL*//*,*map=NULL*/,*bgc=NULL;
     m->map = IMG_Load("house.jpg") ;
     bgc = IMG_Load("whitehouse.jpg") ;
    // pers = IMG_Load("droite.png");
- p->image_p = IMG_Load("droite.png");
+ p.image_p = IMG_Load("droite.png");
 	//SDL_BlitSurface(pers, NULL, ecran, &positionmap);
-    SDL_BlitSurface( p->image_p , NULL, ecran, &positionmap);
+    SDL_BlitSurface( p.image_p , NULL, ecran, &m->pos_map);
 	
     SDL_Flip(ecran);
 
    // SDL_SetColorKey(pers, SDL_SRCCOLORKEY, SDL_MapRGB(pers->format, 0, 0, 255));
-SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0, 0, 255));
+SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0, 255));
     while (continuer)
     {
         SDL_WaitEvent(&event);
@@ -101,7 +101,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 			//pers = IMG_Load("arriere.png");
 				p->image_p  = IMG_Load("arriere.png");
                        // SDL_BlitSurface(pers, NULL, ecran, &positionpers);
-				SDL_BlitSurface(p->image_p, NULL, ecran, &p.pos_perso);
+				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
 			break;
                     
@@ -112,7 +112,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 			//pers = IMG_Load("avant.png");
 				p->image_p  = IMG_Load("avant.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
-				SDL_BlitSurface(p->image_p, NULL, ecran, &p.pos_perso);
+				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
 
                         break;
@@ -124,7 +124,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 			//pers = IMG_Load("droite.png");
 				p->image_p = IMG_Load("droite.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
-				SDL_BlitSurface(p->image_p, NULL, ecran, &p.pos_perso);
+				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
                         break;
                     case SDLK_LEFT: // Flèche gauche
@@ -134,7 +134,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 			//pers = IMG_Load("gauche.png");
 				p->image_p= IMG_Load("gauche.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
-				SDL_BlitSurface(p->image_p, NULL, ecran, &p.pos_perso);
+				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
                         break;
                 }
@@ -284,7 +284,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 
                if( p.pos_perso.x<0)
 
-                { p.pos_perso..x=0;}
+                { p.pos_perso.x=0;}
 
                  if(p.pos_perso.y<0)
 
@@ -292,12 +292,13 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 
     /* On efface l'écran */
         SDL_FillRect(ecran, NULL, SDL_MapRGB(ecran->format, 255, 255, 255));
-        SDL_BlitSurface(bgc,NULL,ecran,&positionmap);
+       // SDL_BlitSurface(bgc,NULL,ecran,&positionmap);
+	    SDL_BlitSurface(bgc,NULL,ecran,&m->pos_map);
 	//SDL_BlitSurface(map, NULL, ecran, &positionmap);   
-	    SDL_BlitSurface(p->image_p, NULL, ecran, &m->pos_map);   
+	    SDL_BlitSurface(p.image_p, NULL, ecran, &m->pos_map);   
 /* On place pers à sa nouvelle position */
        // SDL_BlitSurface(map, NULL, ecran, &positionmap);  
-	    SDL_BlitSurface(p->image_p, NULL, ecran, &m->pos_map);   
+	    SDL_BlitSurface(p.image_p, NULL, ecran, &m->pos_map);   
         /* On met à jour l'affichage */
         SDL_Flip(ecran);
     }
@@ -306,7 +307,7 @@ SDL_SetColorKey(p->image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p->image_p ->format, 0,
 SDL_FreeSurface(bgc);
 
    // SDL_FreeSurface(pers);
-	SDL_FreeSurface(p);
+	SDL_FreeSurface(p.image_p);
     SDL_Quit();
 
     return EXIT_SUCCESS;
