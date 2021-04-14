@@ -97,9 +97,9 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
                     case SDLK_UP: // Flèche haut
 			
 		
-			positionpers.y-=pa;
+			p.pos_perso.y-=pa;
 			//pers = IMG_Load("arriere.png");
-				p->image_p  = IMG_Load("arriere.png");
+				p.image_p  = IMG_Load("arriere.png");
                        // SDL_BlitSurface(pers, NULL, ecran, &positionpers);
 				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
@@ -110,7 +110,7 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
                        // positionpers.y+=pa;
 				 p.pos_perso.y+=pa;
 			//pers = IMG_Load("avant.png");
-				p->image_p  = IMG_Load("avant.png");
+				p.image_p  = IMG_Load("avant.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
 				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
@@ -122,7 +122,7 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
 			//positionpers.x+=pa;
 				 p.pos_perso.x+=pa;
 			//pers = IMG_Load("droite.png");
-				p->image_p = IMG_Load("droite.png");
+				p.image_p = IMG_Load("droite.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
 				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
@@ -303,7 +303,7 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
         SDL_Flip(ecran);
     }
    // SDL_FreeSurface(map);
-	 SDL_FreeSurface(m);
+	 SDL_FreeSurface(m->pos_map);
 SDL_FreeSurface(bgc);
 
    // SDL_FreeSurface(pers);
