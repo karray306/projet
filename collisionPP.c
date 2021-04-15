@@ -132,7 +132,7 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
                        // positionpers.x-=pa;
 				 p.pos_perso.x-=pa;
 			//pers = IMG_Load("gauche.png");
-				p->image_p= IMG_Load("gauche.png");
+				p.image_p= IMG_Load("gauche.png");
 			//SDL_BlitSurface(pers, NULL, ecran, &positionpers);
 				SDL_BlitSurface(p.image_p, NULL, ecran, &p.pos_perso);
 			SDL_Flip(ecran);
@@ -303,7 +303,7 @@ SDL_SetColorKey(p.image_p , SDL_SRCCOLORKEY, SDL_MapRGB(p.image_p ->format, 0, 0
         SDL_Flip(ecran);
     }
    // SDL_FreeSurface(map);
-	 SDL_FreeSurface(m->pos_map);
+	 SDL_FreeSurface(m);
 SDL_FreeSurface(bgc);
 
    // SDL_FreeSurface(pers);
