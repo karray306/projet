@@ -1,3 +1,71 @@
+#include "pres.h"
+
+void initialiserperso(pers *perso)
+{	
+	perso->image_p=IMG_Load("hero.bmp");
+	perso->pos_perso.x=0;
+	perso->pos_perso.y=150;
+	perso->pos_perso.w=120;
+	perso->pos_perso.h=120;
+}
+
+void afficher_perso(SDL_Surface *screen,pers perso)
+{	
+	SDL_BlitSurface(perso.image_p,NULL,screen,&perso.pos_perso);
+}
+
+void deplacer_perso(pers *perso,SDL_Event event)
+{	
+	SDL_PollEvent(&event);
+         switch(event.type)
+            {
+                case SDL_KEYDOWN:
+                       switch(event.key.keysym.sym)
+                        {
+                        
+                        case SDLK_UP:
+                            perso->pos_perso.y=perso->pos_perso.y-10;
+                            break;
+                        case SDLK_DOWN:
+                            perso->pos_perso.y=perso->pos_perso.y+10;
+                            break;
+                        case SDLK_RIGHT:
+                            perso->pos_perso.x=perso->pos_perso.x+10;
+                            break;
+                        case SDLK_LEFT:
+                            perso->pos_perso.x=perso->pos_perso.x-10;
+                            break;
+                        }
+                 break;
+             }
+}
+void free_perso(pers perso)
+{
+	SDL_FreeSurface(perso.image_p);
+}
+
+
+void initialiser_map (map *m,SDL_Surface *screen,pers *perso)
+{
+	m->map=IMG_Load("minimap.jpeg");
+	m->pos_map.x = 50;
+	m->pos_map.y = 50;
+
+	m->mini_perso=SDL_CreateRGBSurface(SDL_HWSURFACE|SDL_DOUBLEBUF,4,21,14,0,0,0,0);
+	SDL_FillRect(m->mini_perso,NULL,SDL_MapRGB(screen->format,220,222,25));
+	m->perso_pos_map.x=0;
+	m->perso_pos_map.y=0;
+
+}
+
+
+void perso_map(map *m,pers *perso)
+{
+	m->perso_pos_map.x=perso->pos_perso.x/5+m->pos_map.x;
+	m->perso_pos_map.y=perso->pos_perso.y/5+m->pos_map.y;
+}
+
+
 void affiche_map(map *m , SDL_Surface *screen,pers *perso)
 {
 	SDL_BlitSurface(m->map, NULL, screen,&m->pos_map);
@@ -160,3 +228,4 @@ void freeTexttime(Text T)
     TTF_CloseFont(T.police); 
     TTF_Quit();    
 }
+
