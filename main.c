@@ -1,19 +1,23 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <SDL/SDL.h>
-#include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
-#include "fonction.h"
+#include "background.h"
+int main (void)
+{
+    int continuee=1;
+    SDL_Surface *b=NULL;
+    SDL_Init(SDL_INIT_EVERYTHING);
+    b= SDL_SetVideoMode(1280,800,32, SDL_HWSURFACE | SDL_DOUBLEBUF);
+    SDL_WM_SetCaption("Out Run", NULL);
+    SDL_Event event;
 
-int main(){
-	
-	SDL_Surface *ecran=NULL;
-	enigme e;
-	
-	afficherenigme(e,ecran);
+if (b==NULL)
+{
+printf("error: %s ",SDL_GetError());
+exit(EXIT_FAILURE);
+}
+while (continuee)
+{
+initBack(b);
+scrolling(b);
+}
 
+SDL_FreeSurface(b);
 }
