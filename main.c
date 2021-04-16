@@ -1,47 +1,103 @@
-#include <stdio.h>
-#include <stdlib.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<string.h>
+#include <SDL/SDL.h>
 #include <SDL/SDL_mixer.h>
 #include <SDL/SDL_image.h>
-#include <SDL/SDL_ttf.h>
-#include "fonction.h"
+#include "enig.h"
 
-int main(int argc, char *argv[])
-{
+int main()
+{ 
 
-    SDL_Surface *ecran=NULL,*background=NULL;
-    SDL_Rect positionFond;
-    positionFond.x = 0;
-    positionFond.y = 0;
-    SDL_Event event;
-    int continuer = 1;
-    personnage p;
+	SDL_Surface *screen,*image1 ;
+	SDL_Rect p ;
+	p.x=0 ;
+	p.y=0 ;
+	enigme  e;
+	FILE *f ;
+	int s,r,run =1,running=1,alea;
+	char image[30];
+	 SDL_Event event;
+   f=fopen("test.txt","a") ;
+	 
+	 SDL_Init ( SDL_INIT_VIDEO ) ;
 
-int i=0;
+	 screen=SDL_SetVideoMode(800,500,32,SDL_HWSURFACE  |  SDL_DOUBLEBUF );
 
-    SDL_Init(SDL_INIT_VIDEO);
-    ecran = SDL_SetVideoMode(800,500, 32, SDL_HWSURFACE);
-    SDL_WM_SetCaption("Test", NULL);
-    p.sprite = IMG_Load("b1.png");
-    p.sprite = IMG_Load("c1.png");
 
-    background=IMG_Load("small.png");
-    SDL_BlitSurface(background, NULL, ecran, &positionFond);
-    SDL_SetColorKey(p.sprite, SDL_SRCCOLORKEY,SDL_MapRGB(p.sprite->format, 0, 0, 255));
-    initialiser_personnage(&p);
-    while (continuer)
-    { //  time () ;
-afficher_perso1(p,ecran,background,positionFond);
-        deplacerperso(&p,&continuer,&event);
-        animperso(&i,&event,&p);
-        
-        SDL_Flip(ecran);
-    }
-    SDL_FreeSurface(p.sprite);
- 
-    SDL_Quit();
-    return EXIT_SUCCESS;
+	 init_enigme(&e);
+	
+	 if(e.img==NULL)
+	 {
+	 	fprintf(f,"%d\n",1800) ;
 
+	 }	
+    
+	
+	 	 
+	 
+	 while (run)
+	 {
+		 running=1,r=0 ;
+	   SDL_PollEvent(&event);
+        switch(event.type)
+        {
+            case SDL_QUIT:
+                run = 0;
+	 break ;
+	
+
+        }	
+        	fprintf(f,"%d\n",e.p.x) ;
+	         fprintf(f,"%d\n",e.p.y) ;
+         generer ( screen  , image ,&e,&alea) ;
+	        fprintf(f,"%s\n",image) ;
+
+      s=solution (image);
+			do{
+			r=resolution (&running,&run);
+			}while((r>3 || r<1) && running!=0) ;
+			fprintf(f,"run=%d\n",run) ;
+			fprintf(f,"s= %d\nr=%d\n",s,r) ;
+			
+      while(running){
+
+				afficher_resultat (screen,s,r,&e) ;
+			  SDL_WaitEvent(&event);
+        switch(event.type)
+        {
+					 case SDL_QUIT :
+                                                running =0 ;
+						run=0 ;
+					  break ;
+            case SDL_KEYDOWN :
+						    
+                  switch( event.key.keysym.sym )
+                {
+			             case  SDLK_ESCAPE: 
+			              running= 0 ;
+                                      run=0 ;
+
+			              break ;
+                                      case SDLK_SPACE:
+                                       running=0;
+                                       break;
+			  
+			   
+			          }
+						break ;
+        }
+				
+			
+
+			}
+			
+	
+	
+	
+   }
+	 fclose(f) ;
+      SDL_FreeSurface(screen);
+      SDL_Quit();
+	return 0;
 }
-
-
-
