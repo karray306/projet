@@ -1,28 +1,30 @@
-#ifndef FONCTION_H_INCLUDED
-#define FONCTION_H_INCLUDED
 
-#include <stdio.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <SDL/SDL.h>
 #include <SDL/SDL_image.h>
 #include <SDL/SDL_ttf.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
-#include <math.h>
+
+typedef struct
+{
+    SDL_Rect position;
+    SDL_Surface *sprite;
+    
+    int score;
+SDL_Rect pos;
+    double vitesse;
+    double acceleration;
+    int sol ;
+}personnage;
+
+void initialiser_personnage(personnage *p);
+
+void afficher_perso1(personnage p, SDL_Surface *ecran,SDL_Surface *background,SDL_Rect positionFond);
+void animperso (int *i , SDL_Event *event, personnage *p);
+void jump (personnage *p);
+void deplacerperso (personnage *p,int *continuer, SDL_Event *event);
 
 
-typedef struct{
-    char question[100];
-    char reponse1[100];
-    char reponse2[100];
-    char reponse3[100];
-    int numrep;
-}enigme;
-
-enigme generer();
-void afficherenigme(enigme e, SDL_Surface*ecran);
 
 
-#endif // FONCTION_H_INCLUDED
 

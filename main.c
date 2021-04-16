@@ -1,23 +1,47 @@
-#include "background.h"
-int main (void)
+#include <stdio.h>
+#include <stdlib.h>
+#include <SDL/SDL_mixer.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_ttf.h>
+#include "fonction.h"
+
+int main(int argc, char *argv[])
 {
-    int continuee=1;
-    SDL_Surface *b=NULL;
-    SDL_Init(SDL_INIT_EVERYTHING);
-    b= SDL_SetVideoMode(1280,800,32, SDL_HWSURFACE | SDL_DOUBLEBUF);
-    SDL_WM_SetCaption("Out Run", NULL);
+
+    SDL_Surface *ecran=NULL,*background=NULL;
+    SDL_Rect positionFond;
+    positionFond.x = 0;
+    positionFond.y = 0;
     SDL_Event event;
+    int continuer = 1;
+    personnage p;
 
-if (b==NULL)
-{
-printf("error: %s ",SDL_GetError());
-exit(EXIT_FAILURE);
-}
-while (continuee)
-{
-initBack(b);
-scrolling(b);
+int i=0;
+
+    SDL_Init(SDL_INIT_VIDEO);
+    ecran = SDL_SetVideoMode(800,500, 32, SDL_HWSURFACE);
+    SDL_WM_SetCaption("Test", NULL);
+    p.sprite = IMG_Load("b1.png");
+    p.sprite = IMG_Load("c1.png");
+
+    background=IMG_Load("small.png");
+    SDL_BlitSurface(background, NULL, ecran, &positionFond);
+    SDL_SetColorKey(p.sprite, SDL_SRCCOLORKEY,SDL_MapRGB(p.sprite->format, 0, 0, 255));
+    initialiser_personnage(&p);
+    while (continuer)
+    { //  time () ;
+afficher_perso1(p,ecran,background,positionFond);
+        deplacerperso(&p,&continuer,&event);
+        animperso(&i,&event,&p);
+        
+        SDL_Flip(ecran);
+    }
+    SDL_FreeSurface(p.sprite);
+ 
+    SDL_Quit();
+    return EXIT_SUCCESS;
+
 }
 
-SDL_FreeSurface(b);
-}
+
+
